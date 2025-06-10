@@ -1,0 +1,10 @@
+flask
+flask_login
+flask_restful
+flask_wtf
+pyexpat
+requests
+sqlalchemy
+sqlalchemy_serializer
+werkzeug
+wtforms

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <a href="/" class="btn btn-warning">
+        Вернуться
+    </a>
+</div>
+<h1>Фильм</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control", type="string") }}<br>
+        {% for error in form.name.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.genre.label }}<br>
+        {{ form.genre(class="form-control", type="string") }}<br>
+        {% for error in form.genre.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.year.label }}<br>
+        {{ form.year(class="form-control", type="string") }}<br>
+        {% for error in form.year.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description() }}<br>
+        {% for error in form.description.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{form.image.label}}<br>
+        {{form.image }}<br>
+        {% for error in form.image.errors%}
+    <p class="alert alert-danger" role="alert">
+        {{error}}
+    </p>
+    {% endfor %}
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Фильм {{film.name}}</h2>
+{% if current_user.is_authenticated %}
+<div>
+    <a href="/logout" class="btn btn-warning">
+        {{ current_user.login }}
+    </a>
+</div>
+{% endif %}
+<div>
+    <a href="/" class="btn btn-warning">
+        Вернуться
+    </a>
+</div>
+<div>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <img src="{{url_for('static', filename='images/'+film.image) }}" alt="image">
+            </td>
+            <td>
+                {{film.name}}
+            </td>
+            <td>
+                {{film.genre}}
+            </td>
+            <td>
+                {{film.year}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{film.description}}
+            </td>
+        </tr>
+        {% if current_user.is_admin%}
+        <tr>
+            <td>
+                <a href="/films/{{film.id}}" class="btn btn-warning">
+                    Редактировать фильм
+                </a>
+            </td>
+            <td>
+                <a href="/delete/films/{{film.id}}" class="btn btn-warning">
+                    Удалить
+                </a>
+            </td>
+        </tr>
+        {%endif%}
+
+        </tbody>
+    </table>
+</div>
+{%if current_user.is_authenticated %}
+{% if not(current_user.reviews) %}
+<div>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.body.label }}<br>
+            {{ form.body(class="form-control", type="string") }}<br>
+            {% for error in form.body.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        {{message}}
+    </form>
+</div>
+{%endif%}
+{%else%}
+<div>Войдите, чтобы оставить отзыв</div>
+{%endif%}
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <td>Пользователь</td>
+            <td>Отзыв</td>
+        </tr>
+        </thead>
+        <tbody>
+            {%for review in reviews%}
+            <tr>
+                <td>
+                    {{ review.user }}
+                </td>
+                <td>
+                    {{review.body}}
+                </td>
+                {% if current_user.is_admin or current_user.id == review.user_id%}
+                <td>
+                    <a href="/delete/review/{{review.id}}" class="btn btn-warning">
+                        Удалить
+                    </a>
+                </td>
+                {%endif%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
